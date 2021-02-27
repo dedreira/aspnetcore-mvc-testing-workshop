@@ -236,7 +236,7 @@ Genial, hasta aquí bien, hemos escrito pruebas para todos los métodos de nuest
 
 ¿Cómo podemos probar que si el divisor es cero obtendremos una excepción de tipo **DivideByZeroException**?
 
-Paso 6. Comprobar excepciones desde nuestros tests.
+## Paso 6. Comprobar excepciones desde nuestros tests.
 
 Para comprobar que nuestro método devuelve una excepción cuando intentamos dividir por cero, podremos hacer uso de la función **Assert.Throws(_método que devuelve error_)**
 
@@ -263,7 +263,7 @@ Fíjate, para continuar usando el patrón AAA de organización de nuestros tests
 
 Aunque al principio el patrón AAA es muy interesante ya que nos permite visualizar el propósito de cada sección dentro de nuestro método, a medida que vayas añadiendo más tests y vayas refactorizando el código de los tests, es probable que no sea necesario cumplir estrictamente con las tres secciones de organización dentro del test.
 
-## Paso 6. Refactorización
+## Paso 7. Refactorización
 
 Bueno, ya tenemos cubierto el 100% del código de nuestra clase AwesomeCalculator por nuestros Tests, pero si miramos el código fuente de los tests hay algo que no termina de cuadrar del todo, estamos repitiendo la creación del objeto AwesomeCalculator en cada uno de los tests, no podríamos hacerlo más simple?
 

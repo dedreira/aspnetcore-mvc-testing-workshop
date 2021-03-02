@@ -76,5 +76,7 @@ namespace Workshop.Testing.Calculator.Tests
             // Assert
             Assert.Throws<DivideByZeroException>(divide);
         }
+
+        
     }
 }

@@ -10,7 +10,7 @@ Visual Studio 2017 o 2019 o Visual Studio Code o Visual Studio for Mac y dotnet 
 
 Carpeta [**ejercicio/before**](ejercicio/before)
 
-## Si me atasco, dónde está la solución?
+## Si me atasco, dónde está la solución completa?
 
 Carpeta [**ejercicio/after**](ejercicio/after)
 

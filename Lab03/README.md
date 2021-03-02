@@ -1,6 +1,6 @@
-# Lab2. Simular dependencias con Moq
+# Lab 3. Añadir tests de integración
 
-En este lab vamos a ver como utilizar la librería Moq para simular algunas dependencias en Asp.Net Core MVC
+En este Lab vamos a ver cómo añadir tests de integración a la aplicación de ejemplo asp.net core mvc utilizando el proveedor de Entity Framework _In Memory_
 
 ## Qué necesito para seguir este lab
 

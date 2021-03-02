@@ -6,3 +6,4 @@ Hola! este repositorio contiene el material del workshop de **tests automáticos
 
 -   [Lab 1 - Creación de Unit Tests básicos con XUnit](Lab01/README.md)
 -   [Lab 2 - Simular dependencias con Moq](Lab02/README.md)
+-   [Lab 3. Añadir tests de integración](Lab03/README.md)

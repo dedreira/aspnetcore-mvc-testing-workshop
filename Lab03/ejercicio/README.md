@@ -192,7 +192,7 @@ Este test debería:
 - Obtener las películas de la base de datos usando la propiedad **Movie** del contexto (solo debería haber una película, la que acabamos de crear!)
 - Comprobar que el título de la película que acabamos de obtener de base de datos es el mismo que la película que hemos creado en el punto 5 de esta lista.
 
-Escribe tu mismo el test, y si te atascas, esta sería una posible [solución](soluciones.md):
+Escribe tu mismo el test, y si te atascas, esta sería una posible [solución](soluciones.md#paso-2-crear-un-test-para-el-m%C3%A9todo-create):
 
 # Paso 3. Utilizar WebApplicationFactory
 

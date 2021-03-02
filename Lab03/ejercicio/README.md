@@ -660,8 +660,8 @@ var postRequest = new HttpRequestMessage(HttpMethod.Post, "movies/create");
             postRequest.Content = new FormUrlEncodedContent(formModel);
 ````
 
-# Ejercicio. Escribir un test para la edición de una película
+## Ejercicio. Escribir un test para la edición de una película
 
 Con lo que has aprendido en los dos últimos pasos, crea un test de integración para el método edit, confirmando que puedes editar el título de una película correctamente.
 
-Si te atascas o te encuentras algún problema, aquí tienes una posible [solución](soluciones.md)
+Si te atascas o te encuentras algún problema, aquí tienes una posible [solución](soluciones.md#escribir-un-test-para-la-edici%C3%B3n-de-una-pel%C3%ADcula)

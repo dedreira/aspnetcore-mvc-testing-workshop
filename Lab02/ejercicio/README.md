@@ -101,7 +101,7 @@ Cuando hayas terminado, ejecuta los tests, debería salirte algo similar a esto:
 
 ![](.images/run-four-tests.png)
 
-Si te atascas, te muestro la solución [aquí](soluciones.md)
+Si te atascas, te muestro la solución [aquí](soluciones.md#paso-4-crear-tests-para-los-m%C3%A9todos-deletemovieasync-getallgenres-y-updatemovieasync)
 
 
 
@@ -235,7 +235,7 @@ Aquí te paso la cabecera del test:
         }
 ````
 
-Codifícalo tu, y si ves que te atascas, te paso **una de las soluciones** [aquí](soluciones.md)
+Codifícalo tu, y si ves que te atascas, te paso **una de las soluciones** [aquí](soluciones.md#paso-53-comprobar-que-se-devuelve-una-excepci%C3%B3n-cuando-el-repositorio-no-encuentra-la-pel%C3%ADcula)
 
 
 
@@ -245,7 +245,7 @@ Y digo que te paso una de las soluciones, porque en realidad en este caso no ser
 
 Para terminar de cubrir con test toda nuestra clase **MoviesService** nos faltaría el método **GetMoviesFiltered**. Prueba a crear tres métodos que comprueben que se puede filtrar por género, por título y por ambos.
 
-Aquí tienes una posible [solución](soluciones.md)
+Aquí tienes una posible [solución](soluciones.md#paso-6-crear-tests-para-el-m%C3%A9todo-getmoviesfiltered)
 
 
 ## Paso 7. Empezar con la clase MoviesController
@@ -331,7 +331,7 @@ Con lo que hemos visto hasta ahora, escribe el cuerpo de los dos tests. Para la 
 ````
 
 
-Si te bloqueas o tienes algún problema, aquí tienes una posible [solución](soluciones.md)
+Si te bloqueas o tienes algún problema, aquí tienes una posible [solución](soluciones.md#paso-71-crear-test-para-el-m%C3%A9todo-details)
 
 
 ### Paso 7.2. Crear Tests para el método Create (Post)
@@ -387,7 +387,7 @@ Escribe los cuerpos de los tests, las secciones **Assert** deben ser así:
 ````
 
 
-Si ves que te bloqueas o tienes algún error, aquí tienes dos posibles [soluciones](soluciones.md)
+Si ves que te bloqueas o tienes algún error, aquí tienes dos posibles [soluciones](soluciones.md#paso-72-crear-tests-para-el-m%C3%A9todo-create-post)
 
 
 

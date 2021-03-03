@@ -124,6 +124,7 @@ Y con esto ya lo tendríamos! el código completo del builder por si lo quieres 
             get
             {
                 context = new MvcMovieContext(optionsBuilder.Options);
+                context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
                 return context;
             }

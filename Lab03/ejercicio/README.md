@@ -197,7 +197,7 @@ Escribe tu mismo el test, y si te atascas, esta sería una posible [solución](s
 
 # Paso 3. Utilizar WebApplicationFactory
 
-Ahora que ya sabemos cómo ejecutar tests de integración sin levantar un servidor web, vamos a ver cómo utilizar la clase WebApplicationBuilder para ejecutar un servidor web en memoria y realizar tests de integración usandolo.
+Ahora que ya sabemos cómo ejecutar tests de integración sin levantar un servidor web, vamos a ver cómo utilizar la clase WebApplicationFactory para ejecutar un servidor web en memoria y realizar tests de integración usandolo.
 
 Para poder utilizar la clase WebApplicationFactory en nuestros tests es necesario instalar el paquete nuget **Microsoft.AspNetCore.Mvc.Testing**
 

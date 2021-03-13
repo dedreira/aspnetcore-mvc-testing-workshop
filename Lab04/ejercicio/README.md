@@ -340,7 +340,7 @@ Primero vamos a escribir un test que ejecute un filtrado de películas por géne
 
 ### Cómo trabajar con un elemento select desde Selenium
 
-Cuando ejecutamos una consulta **FindElement** Selenium nos devuelve un objeto IWebElement, con lo que tendremos que crear un objeto **SelectElement** pasándole el IWebElement que hemos recuperado de la consulta al driver de Selenium.
+Cuando ejecutamos una consulta **FindElement** Selenium nos devuelve un objeto **IWebElement**, con lo que tendremos que crear un objeto **SelectElement** pasándole el IWebElement que hemos recuperado de la consulta al driver de Selenium.
 
 Después de eso, podemos elegir el valor del control select utilizando los métodos SelectByText o SelectByValue
 
@@ -404,13 +404,13 @@ Una vez hayamos recuperado el control mediante una consulta al driver de Seleniu
 # Paso 5. Crear un test para la creación de una película
 
 Con lo que hemos visto en los dos ejemplo anteriores, vamos a crear un test que se encargue de:
-- Navegar a la página de "movies/create"
-- Recupere todos los inputs de la web
-- Limpie los valores previos, ya que el formulario carga valores por defecto
-- Asignemos valores a cada control
+- Navegar a la página de "movies/create" (con **Browser.NavigateTo**)
+- Recupere todos los inputs de la web (como objetos IWebElement)
+- Limpie los valores previos (utilizando la función **Clear()** de cada objeto IWebElement), ya que el formulario carga valores por defecto
+- Asignemos valores a cada control (con la función **SendKeys** de cada IWebElement)
 - Lancemos el evento click del botón de tipo submit del formulario
 
-Una vez hayamos lanzado el evento click, automáticamente la web nos deberá redirigir a la página de index, con lo que para realizar la comprobación recuperaremos todos los títulos de la tabla que renderiza la página Index (como hemos hecho en los ejemplos anteriores) y compruebe que el título de la película que hemos creado se encuentra entre ellos.
+Una vez hayamos lanzado el evento click, automáticamente la web nos deberá redirigir a la página de Index, con lo que para realizar la comprobación recuperaremos todos los títulos de la tabla que renderiza la página Index (como hemos hecho en los ejemplos anteriores) y compruebe que el título de la película que hemos creado se encuentra entre ellos.
 
 Prueba a crear tu el test, y si te atascas o encuentras algún problema, aquí tienes una posible [solución](soluciones.md)
 
@@ -453,7 +453,7 @@ Cuando termines el test, si has seguido más o menos el enfoque que proponía yo
 
 Hay un montón de líneas de código en este test que se encargan de recuperar e inicializar los controles del formulario, con lo que si vamos a escribir varios tests sobre el formulario, vamos a **repetir** un montón de líneas de código que solo van a hacer el test más difícil de entender para alguien que se ponga a intentar entender qué es lo que hace el propio test.
 
-En este ejercicio vamos a crear un objeto que se encargue de lidiar con los controles de esta página, para ello vamos a crear una carpeta nueva llamada **Presenters** y dentro de ella una clase llamada **CreateMoviePage** que se encargue de cargar los objetos del formulario y de interactuar con ellos
+En este ejercicio vamos a crear un objeto que se encargue de lidiar con los controles de esta página, para ello vamos a crear una carpeta nueva dentro del proyecto de tests llamada **Presenters** y dentro de ella una clase llamada **CreateMoviePage**. Esta clase se encargará de cargar los elementos del formulario y de interactuar con ellos
 
 ````csharp
 public class CreateMoviePage
@@ -555,5 +555,172 @@ Así nos quedaría un test como este:
         }
 ````
 
+# Paso 7. Crear un presentador para la página de Movies Index
 
+Con lo que hemos visto hasta ahora, vamos a crear dos clases que encapsulen la interacción con los elementos del formulario Index del Controller MoviesController. Para ello, dentro de la carpeta **Presenters** vamos a crear una clase llamada **IndexMoviePage** y otra clase llamada **IndexMoviePageTableRow**. La primera va a representar la parte de la página que contiene los campos de filtro para las películas y la segunda representará una película dentro de la tabla de resultados que muestra la página.
 
+Aquí tienes el código de las dos clases:
+
+````csharp
+public class IndexMoviePageTableRow
+    {
+        string title;
+        string releaseDate;
+        string genre;
+        string price;
+        IWebElement editLink;
+        IWebElement detailsLink;
+        IWebElement deleteLink;
+        public IndexMoviePageTableRow(IWebElement row)
+        {
+            title = row.FindElement(By.CssSelector("td:nth-of-type(1)")).Text;
+            releaseDate = row.FindElement(By.CssSelector("td:nth-of-type(2)")).Text;
+            genre = row.FindElement(By.CssSelector("td:nth-of-type(3)")).Text;
+            price = row.FindElement(By.CssSelector("td:nth-of-type(4)")).Text;
+            editLink = row.FindElement(By.LinkText("Edit"));
+            detailsLink = row.FindElement(By.LinkText("Details"));
+            deleteLink = row.FindElement(By.LinkText("Delete"));
+        }
+
+        public string Title
+        {
+            get
+            {
+                return title;
+            }
+        }
+        public string ReleaseDate
+        {
+            get
+            {
+                return releaseDate;
+            }
+        }
+        public string Genre
+        {
+            get
+            {
+                return genre;
+            }
+        }
+        public string Price
+        {
+            get
+            {
+                return price;
+            }
+        }
+
+        public void SendEditRequest()
+        {
+            editLink.Click();
+        }
+        public void SendDeleteRequest()
+        {
+            deleteLink.Click();
+        }
+        public void SendDetailsRequest()
+        {
+            detailsLink.Click();
+        }
+    }
+````
+
+````csharp
+    public class IndexMoviePage
+    {
+        SelectElement genreSelect;
+        IWebElement filterTitle;
+        IWebElement filterButton;
+        IWebElement createNewLink;
+        List<IndexMoviePageTableRow> moviesRendered;
+        IWebDriver browser;
+        public IndexMoviePage(IWebDriver browser)
+        {
+            filterTitle = browser.FindElement(By.CssSelector("input[type=text]"));
+            filterButton = browser.FindElement(By.CssSelector("input[type=submit]"));
+            genreSelect = new SelectElement(browser.FindElement(By.TagName("select")));
+            createNewLink = browser.FindElement(By.LinkText("Create New"));
+            moviesRendered = browser.FindElements(By.CssSelector("tbody > tr"))
+                            .Select(r => new IndexMoviePageTableRow(r))
+                            .ToList();
+            this.browser = browser;
+        }
+
+        public List<string> Genres()
+        {
+            return genreSelect.Options.Select(o => o.Text).ToList();
+        }
+        public void SelectGenre(string genre)
+        {
+            genreSelect.SelectByText(genre);
+        }
+        public string FilterTitle
+        {
+            get
+            {
+                return filterTitle.Text;
+            }
+            set
+            {
+                filterTitle.Clear();
+                filterTitle.SendKeys(value);
+            }
+        }
+
+        public void SendSearchRequest()
+        {
+            filterButton.Click();            
+        }
+
+        public void SendCreateNewRequest()
+        {
+            createNewLink.Click();            
+        }
+
+        public List<IndexMoviePageTableRow> MoviesRendered
+        {
+            get
+            {
+                return moviesRendered;
+            }
+        }
+
+    }
+````
+
+Ahora, modifica el test **Should_Create_New_Movie()** para que haga uso de la clase **IndexMoviePage** y recupere los títulos de las películas accediendo a las propiedades del nuevo objeto **IndexMoviePage**:
+
+````csharp
+        [Fact]
+        public void Should_Create_New_Movie()
+        {
+            // Arrange            
+            
+            Browser.Navigate().GoToUrl($"{Server.RootUri}/movies/Create");
+            var page = new CreateMoviePage(Browser);
+            page.Title = "Terminator 2";
+            page.ReleaseDate = DateTime.Now.ToShortDateString();
+            page.Genre = "Action";
+            page.Price = 9.99M.ToString();
+
+            // Act
+            page.SendRequest();
+
+            var moviesPage = new IndexMoviePage(Browser);
+            var movieTitlesRendered = moviesPage.MoviesRendered.Select(x => x.Title);
+
+            // Assert
+            Assert.Contains("Terminator 2", movieTitlesRendered);
+        }
+````
+
+Por último, refactoriza los tests:
+
+- Should_Display_Movies_List_In_Movies_Page
+- Should_Filter_Movies_By_Genre
+- Should_Filter_Movies_By_Title
+
+Para que hagan uso de la nueva clase **IndexMoviePage**.
+
+Si te atascas o tienes algún problema, puedes echar un vistazo a estas posibles [soluciones](soluciones.md)

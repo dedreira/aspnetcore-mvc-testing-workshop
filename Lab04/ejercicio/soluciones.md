@@ -33,3 +33,68 @@
             Assert.Contains("Terminator 2", movieTitlesRendered);
         }
 ````
+
+# Paso 7. Crear un presentador para la página de Movies Index
+
+````csharp
+        [Fact]
+        public void Should_Display_Movies_List_In_Movies_Page()
+        {
+            // Arrange
+            var movies = GetMovies();
+
+            // Act
+            Browser.Navigate().GoToUrl($"{Server.RootUri}/movies/Index");
+            var indexMoviePage = new IndexMoviePage(Browser);
+            var movieTitlesRendered = indexMoviePage.MoviesRendered.Select(m => m.Title);
+
+            // Assert            
+            foreach (var movie in movies)
+            {
+                Assert.Contains(movie.Title.Trim(), movieTitlesRendered);
+            }                        
+        }
+
+        [Fact]
+        public void Should_Filter_Movies_By_Genre()
+        {
+            // Arrange
+            var movies = GetMovies();
+            var firstGenre = movies.First().Genre;
+            int expected = 1;            
+            Browser.Navigate().GoToUrl($"{Server.RootUri}/movies/Index");
+            var indexMoviePage = new IndexMoviePage(Browser);
+            indexMoviePage.SelectGenre(firstGenre);
+
+            // Act
+            indexMoviePage.SendSearchRequest();
+            indexMoviePage = new IndexMoviePage(Browser);
+
+            var genresdisplayed = indexMoviePage.MoviesRendered.Select(m => m.Title);
+
+            // Assert
+            Assert.Equal(expected, genresdisplayed.Count());
+
+        }
+
+        [Fact]
+        public void Should_Filter_Movies_By_Title()
+        {
+            // Arrange
+            var movies = GetMovies();
+            var firstTitle = movies.First().Title;
+            int justOneFilm = 1;
+            Browser.Navigate().GoToUrl($"{Server.RootUri}/movies/Index");
+            var indexMoviePage = new IndexMoviePage(Browser);
+            indexMoviePage.FilterTitle = firstTitle;
+
+            // Act
+
+            indexMoviePage.SendSearchRequest();
+            indexMoviePage = new IndexMoviePage(Browser);
+            var elements = indexMoviePage.MoviesRendered;
+
+            // Assert
+            Assert.Equal(justOneFilm, elements.Count);
+        }
+````

@@ -87,8 +87,8 @@ namespace MvcMovie.Tests.IntegrationTests
 
             // Act
             Browser.Navigate().GoToUrl($"{Server.RootUri}/movies/Index");
-            var movieTitlesRendered = Browser.FindElements(By.CssSelector("tbody > tr > td:nth-of-type(1)"))
-                                        .Select(x => x.Text.Trim());
+            var indexMoviePage = new IndexMoviePage(Browser);
+            var movieTitlesRendered = indexMoviePage.MoviesRendered.Select(m => m.Title);
 
             // Assert            
             foreach (var movie in movies)
@@ -105,15 +105,14 @@ namespace MvcMovie.Tests.IntegrationTests
             var firstGenre = movies.First().Genre;
             int expected = 1;            
             Browser.Navigate().GoToUrl($"{Server.RootUri}/movies/Index");
-            SelectElement select = new SelectElement(Browser.FindElement(By.TagName("select")));
-            IWebElement filterButton = Browser.FindElement(By.CssSelector("input[type=submit]"));
+            var indexMoviePage = new IndexMoviePage(Browser);
+            indexMoviePage.SelectGenre(firstGenre);
 
             // Act
-            select.SelectByText(firstGenre);
-            filterButton.Click();
+            indexMoviePage.SendSearchRequest();
+            indexMoviePage = new IndexMoviePage(Browser);
 
-            var genresdisplayed = Browser.FindElements(By.CssSelector("tbody > tr > td:nth-of-type(3)"))
-                                    .Select(x => x.Text).Distinct();
+            var genresdisplayed = indexMoviePage.MoviesRendered.Select(m => m.Title);
 
             // Assert
             Assert.Equal(expected, genresdisplayed.Count());
@@ -128,13 +127,14 @@ namespace MvcMovie.Tests.IntegrationTests
             var firstTitle = movies.First().Title;
             int justOneFilm = 1;
             Browser.Navigate().GoToUrl($"{Server.RootUri}/movies/Index");
-            IWebElement filterInput = Browser.FindElement(By.CssSelector("input[type=text]"));
-            IWebElement filterButton = Browser.FindElement(By.CssSelector("input[type=submit]"));
+            var indexMoviePage = new IndexMoviePage(Browser);
+            indexMoviePage.FilterTitle = firstTitle;
 
             // Act
-            filterInput.SendKeys(firstTitle);
-            filterButton.Click();
-            var elements = Browser.FindElements(By.CssSelector("tbody > tr"));
+
+            indexMoviePage.SendSearchRequest();
+            indexMoviePage = new IndexMoviePage(Browser);
+            var elements = indexMoviePage.MoviesRendered;
 
             // Assert
             Assert.Equal(justOneFilm, elements.Count);
@@ -155,8 +155,8 @@ namespace MvcMovie.Tests.IntegrationTests
             // Act
             page.SendRequest();
 
-            var movieTitlesRendered = Browser.FindElements(By.CssSelector("tbody > tr > td:nth-of-type(1)"))
-                            .Select(x => x.Text.Trim());
+            var moviesPage = new IndexMoviePage(Browser);
+            var movieTitlesRendered = moviesPage.MoviesRendered.Select(x => x.Title);
 
             // Assert
             Assert.Contains("Terminator 2", movieTitlesRendered);

@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace MvcMovie.Tests.Configuration
 {
-    public class SeleniumServerFactory<TStartup> : CustomWebApplicationFactory<Startup> where TStartup : class
+    public class SeleniumServerFactory<TStartup> : CustomWebApplicationFactory<TStartup> where TStartup : class
     {
         public string RootUri { get; set; } //Save this use by tests
 

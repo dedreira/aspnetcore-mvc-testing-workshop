@@ -31,7 +31,7 @@ selenium-standalone install
 Necesitamos poder levantar el ejecutable de selenium cuando arranquemos nuestros tests de UI, para ello vamos a customizar nuestra clase CustomWebApplicationFactory creando una nueva clase dentro de la carpeta **Configuration** que se llame **SeleniumServerFactory** y que herede de nuestro **CustomWebApplicationFactory**:
 
 ````csharp
-public class SeleniumServerFactory<TStartup> : CustomWebApplicationFactory<Startup> where TStartup : class
+public class SeleniumServerFactory<TStartup> : CustomWebApplicationFactory<TStartup> where TStartup : class
     {
         public string RootUri { get; set; } //Save this use by tests
 

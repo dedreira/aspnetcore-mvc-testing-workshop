@@ -45,17 +45,7 @@ namespace MvcMovie
             ConfigureApplicationDatabase(services);
             ConfigureAuthentication(services);
 
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("Admins", policy =>
-                {
-                    policy.RequireRole("Admin");
-                });
-                options.AddPolicy("Visitor", policy =>
-                {
-                    policy.RequireClaim(ClaimTypes.Role, "Visitor");
-                });
-            });
+            services.AddAuthorization();
             
             services.AddControllersWithViews();
             services.AddRazorPages();

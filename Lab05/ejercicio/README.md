@@ -425,3 +425,5 @@ La clase **UI_Movies_With_Anonymous_User** utilizará Selenium para ejecutar las
 
 Escribe un test para cada clase que compruebe que si un usuario anónimo intenta navegar hasta el endpoint "/movies" será redirigido a la página de Login.
 
+Para ello puedes comprobar que la url de la página que obtenemos de vuelta al atacar al endpoint contiene la ruta: **Identity/Account/Login**
+

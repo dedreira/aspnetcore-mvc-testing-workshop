@@ -354,3 +354,74 @@ Vamos a cambiar el nombre de estas dos clases para que cuando alguien abra la so
 - MoviesPageTests -> Movies_Page_With_Logged_In_User
 - SeleniumTests -> UI_Movies_With_Logged_In_User
 
+# Paso 6. Crear tests para un usuario no logado en el sistema
+
+Vamos a crear dos clases de test para simular un visitante no logado en el sistema, para ello, dentro de la carpeta **IntegrationTests** vamos a crear dos clases:
+
+- Movies_Page_With_Anonymous_User
+- UI_Movies_With_Anonymous_User
+
+````csharp
+using MvcMovie.Tests.Configuration;
+using System.Net.Http;
+using Xunit;
+namespace MvcMovie.Tests.IntegrationTests
+{
+    [Collection("Secuential Integration Tests")]
+    public class Movies_Page_With_Anonymous_User : IClassFixture<CustomWebApplicationFactory<Startup>>
+    {
+        private readonly CustomWebApplicationFactory<Startup> factory;
+        private HttpClient client;
+        public Movies_Page_With_Anonymous_User(CustomWebApplicationFactory<Startup> _factory)
+        {
+            factory = _factory;
+        }
+    }
+}
+````
+
+````csharp
+using MvcMovie.Tests.Configuration;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Remote;
+using System;
+using System.Net.Http;
+using Xunit;
+
+namespace MvcMovie.Tests.IntegrationTests
+{
+    [Collection("Secuential Integration Tests")]
+    public class UI_Movies_With_Anonymous_User : IClassFixture<SeleniumServerFactory<Startup>>, IDisposable
+    {
+        public SeleniumServerFactory<Startup> Server;
+        public IWebDriver Browser;
+        public HttpClient Client;
+
+        public UI_Movies_With_Anonymous_User(SeleniumServerFactory<Startup> server)
+        {
+            Server = server;
+            Client = Server                   
+                    .CreateClient();
+            var opts = new ChromeOptions();
+            opts.AddArgument("--headless");
+            opts.SetLoggingPreference(OpenQA.Selenium.LogType.Browser, LogLevel.All);
+
+            var driver = new RemoteWebDriver(opts);
+            Browser = driver;
+        }
+
+        public void Dispose()
+        {
+            Browser.Dispose();
+            Client.Dispose();
+        }
+    }
+}
+
+````
+
+La clase **UI_Movies_With_Anonymous_User** utilizará Selenium para ejecutar las pruebas mientras que la clase **Movies_Page_With_Anonymous_User** utilizará simplemente la clase CustomWebApplicationFactory.
+
+Escribe un test para cada clase que compruebe que si un usuario anónimo intenta navegar hasta el endpoint "/movies" será redirigido a la página de Login.
+

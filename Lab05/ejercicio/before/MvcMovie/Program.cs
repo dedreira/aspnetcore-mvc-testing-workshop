@@ -6,6 +6,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using MvcMovie.Models;
 using MvcMovie;
+using MvcMovie.Data;
 
 namespace MvcMovie
 {
@@ -24,6 +25,10 @@ namespace MvcMovie
                     var context = services.GetRequiredService<MvcMovieContext>();
                     context.Database.Migrate();
                     SeedData.Initialize(services);
+
+                    var identitycontext = services.GetRequiredService<MvcMovieIdentityContext>();
+                    identitycontext.Database.Migrate();
+                    identitycontext.Database.EnsureCreated();
                 }
                 catch (Exception ex)
                 {

@@ -9,3 +9,4 @@ Hola! este repositorio contiene el material del workshop de **tests automáticos
 -   [Lab 3 - Añadir tests de integración](Lab03/README.md)
 -   [Lab 4 - Introducción a los tests de UI con Selenium](Lab04/README.md)
 -   [Lab 5 - Simular la autenticación](Lab05/README.md)
+-   [Lab 6 - Simular la autorización](Lab06/README.md)
